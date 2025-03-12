@@ -22,13 +22,15 @@ export const Profile = ({ imageUrl, name, isLoading }: ProfileProps) => {
           <Skeleton
             circle
             containerTestId="profile-avatar-skeleton"
-            className="flex aspect-square size-full"
+            className="aspect-square size-full"
+            containerClassName="flex"
           />
         </div>
         <div className="h-4 w-24">
           <Skeleton
             containerTestId="profile-name-skeleton"
-            className="flex h-full"
+            className="h-full"
+            containerClassName="flex"
           />
         </div>
       </div>

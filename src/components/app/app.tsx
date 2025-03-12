@@ -1,16 +1,20 @@
+import { Route, Routes } from 'react-router'
 import { useAuth0, User } from '@auth0/auth0-react'
 
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/app-sidebar'
-import { AuthButton } from '@/components/auth-button'
-import { Profile } from '@/components/profile'
+import { NotFound } from '@/components/not-found'
+import { Explorer } from '@/components/explorer'
+import { Console } from '@/components/console'
+import { Header } from '@/components/header'
+import { Home } from '@/components/home'
 
 type AppProps = {
   onLogin: () => Promise<void>
   onLogout: () => Promise<void>
   isAuthenticated: boolean
-  user?: User
   isLoading?: boolean
+  user?: User
 }
 
 export const App = ({
@@ -23,29 +27,25 @@ export const App = ({
   <SidebarProvider>
     <AppSidebar />
     <div className="flex-1">
-      <div className="hidden flex-col md:flex">
-        <div className="border-b">
-          <div className="flex h-16 items-center justify-between px-4">
-            <div>
-              {isAuthenticated && (
-                <Profile
-                  name={user?.name}
-                  imageUrl={user?.picture}
-                  isLoading={isLoading}
-                />
-              )}
-            </div>
-            <AuthButton
-              isAuthenticated={isAuthenticated}
-              isLoading={isLoading}
-              onLogin={onLogin}
-              onLogout={onLogout}
-            />
-          </div>
-        </div>
-      </div>
-      <main>
-        <SidebarTrigger />
+      <main className="flex h-full flex-col">
+        <Header
+          onLogin={onLogin}
+          onLogout={onLogout}
+          isAuthenticated={isAuthenticated}
+          isLoading={isLoading}
+          username={user?.name}
+          userPicture={user?.picture}
+        />
+        <Routes>
+          <Route
+            path="/"
+            element={<Home name={user?.name} isLoading={isLoading} />}
+          />
+          <Route path="/explorer" element={<Explorer />} />
+          <Route path="/console" element={<Console />} />
+          {/* 404 Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
     </div>
   </SidebarProvider>

@@ -5,17 +5,11 @@ import { App } from '.'
 const meta = {
   title: 'components/app',
   component: App,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
   args: {
-    user: {
-      name: 'Eddie Tindame',
-      picture: 'https://avatars.githubusercontent.com/u/14052875?v=4',
-    },
-    isAuthenticated: true,
-    isLoading: false,
+    isAuthenticated: false,
     onLogin: () => Promise.resolve(),
     onLogout: () => Promise.resolve(),
   },
@@ -24,11 +18,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Authenticated: Story = {}
+export const NotAuthenticated: Story = {}
 
-export const NotAuthenticated: Story = {
+export const Authenticated: Story = {
   args: {
-    isAuthenticated: false,
+    user: {
+      name: 'Eddie Tindame',
+      picture: 'https://avatars.githubusercontent.com/u/14052875?v=4',
+    },
+    isAuthenticated: true,
+    isLoading: false,
   },
 }
 

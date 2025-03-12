@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { withRouter } from 'storybook-addon-remix-react-router'
 
 import '../src/index.css'
 
@@ -12,6 +13,7 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [withRouter],
 }
 
 export default preview
