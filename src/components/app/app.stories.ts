@@ -9,9 +9,31 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  args: {
+    user: {
+      name: 'Eddie Tindame',
+      picture: 'https://avatars.githubusercontent.com/u/14052875?v=4',
+    },
+    isAuthenticated: true,
+    isLoading: false,
+    onLogin: () => Promise.resolve(),
+    onLogout: () => Promise.resolve(),
+  },
 } satisfies Meta<typeof App>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Basic: Story = {}
+export const Authenticated: Story = {}
+
+export const NotAuthenticated: Story = {
+  args: {
+    isAuthenticated: false,
+  },
+}
+
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+  },
+}

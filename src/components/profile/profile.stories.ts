@@ -43,3 +43,30 @@ export const WithoutPicture: Story = {
     await expect(canvas.getByText('Eddie Tindame')).toBeVisible()
   },
 }
+
+export const LoggedOut: Story = {
+  args: {
+    imageUrl: undefined,
+    name: undefined,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.queryByRole('img')).not.toBeInTheDocument()
+    await expect(canvas.queryByText('ET')).not.toBeInTheDocument()
+    await expect(canvas.queryByText('Eddie Tindame')).not.toBeInTheDocument()
+  },
+}
+
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.queryByRole('img')).not.toBeInTheDocument()
+    await expect(canvas.queryByText('ET')).not.toBeInTheDocument()
+    await expect(canvas.queryByText('Eddie Tindame')).not.toBeInTheDocument()
+    await expect(canvas.getByTestId('profile-avatar-skeleton')).toBeVisible()
+    await expect(canvas.getByTestId('profile-name-skeleton')).toBeVisible()
+  },
+}
