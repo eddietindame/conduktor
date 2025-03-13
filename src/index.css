@@ -127,3 +127,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+@utility animation-duration-* {
+  animation-duration: --value([ *]);
+}

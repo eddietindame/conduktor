@@ -11,7 +11,6 @@ export const columns: ColumnDef<Topic>[] = [
   {
     accessorKey: 'numberOfPartitions',
     header: 'Partitions',
-    size: 300,
   },
   {
     id: 'actions',

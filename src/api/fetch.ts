@@ -8,12 +8,12 @@ import {
   GetTopicResponse,
   GetTopicsResponse,
   GraphQLQueryResponse,
+  RequestError,
 } from '.'
 
 const graphQlRequest = async <T1, T2 = unknown>(
   query: DocumentNode,
   variables?: Record<string, T2>,
-  errorMessage?: string,
 ) => {
   const response = await fetch(`${import.meta.env.VITE_API_HOST}/graphql`, {
     method: 'POST',
@@ -26,16 +26,12 @@ const graphQlRequest = async <T1, T2 = unknown>(
 
   const result = (await response.json()) as GraphQLQueryResponse<T1>
 
-  if (response.ok && !result.errors) {
-    return result
-  } else {
+  if (!response.ok || result.errors?.length) {
     console.error('GraphQL error:', result.errors || response.statusText)
-    throw new Error(
-      result.errors?.map(err => err.message).join(', ') ||
-        errorMessage ||
-        'Failed to execute operation',
-    )
+    throw new RequestError(result, response)
   }
+
+  return result
 }
 
 export const getTopics = async () =>
@@ -49,7 +45,6 @@ export const getTopics = async () =>
       }
     `,
     undefined,
-    'Failed to fetch topics',
   )
 
 export const getTopic = async (name: string) =>
@@ -63,7 +58,6 @@ export const getTopic = async (name: string) =>
       }
     `,
     { name },
-    'Failed to fetch topic',
   )
 
 export const createTopic = async (topicInput: CreateTopicInput) =>
@@ -79,5 +73,4 @@ export const createTopic = async (topicInput: CreateTopicInput) =>
     {
       args: topicInput,
     },
-    'Failed to create topic',
   )
