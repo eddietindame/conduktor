@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router'
 import { useAuth0, User } from '@auth0/auth0-react'
 
+import { ExplorerContainer as Explorer } from '@/components/explorer'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/app-sidebar'
 import { NotFound } from '@/components/not-found'
-import { Explorer } from '@/components/explorer'
 import { Console } from '@/components/console'
 import { Header } from '@/components/header'
 import { Home } from '@/components/home'
