@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { getTopic, getTopics } from './fetch'
-import { RequestError } from '.'
+import { createTopic, getTopic, getTopics } from './fetch'
+import { CreateTopicInput, RequestError } from '.'
 
 export const topicsKey = 'topics'
 
@@ -23,11 +23,12 @@ export const useTopic = (name: string) =>
     select: ({ data }) => data.topic,
   })
 
-export const useCreateTopic = (name: string) => {
+export const useCreateTopic = (onSuccess?: () => void) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: () => getTopic(name),
+    mutationFn: (topic: CreateTopicInput) => createTopic(topic),
     onSuccess: async () => {
+      if (onSuccess) onSuccess()
       await queryClient.invalidateQueries({ queryKey: [topicsKey] })
     },
   })

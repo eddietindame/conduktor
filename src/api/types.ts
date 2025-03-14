@@ -27,6 +27,7 @@ export type CreateTopicInput = {
   topicName: string
   numberOfPartitions: number
 }
+
 export class RequestError extends Error {
   status: number
   statusText: string

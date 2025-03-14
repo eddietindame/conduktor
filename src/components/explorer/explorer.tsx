@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 
 import { Topic, topicsKey, useTopics } from '@/api'
+import { CreateTopicPopover } from '@/features/create-topic'
 import { RefreshButton } from '@/components/refresh-button'
 import { TopicsTable } from '@/components/topics-table'
 import { ErrorAlert } from '@/components/error-alert'
@@ -49,7 +50,8 @@ export const Explorer = ({
               isLoading={isLoading}
             />
           </div>
-          <div className="flex items-end justify-end">
+          <div className="flex items-end justify-end gap-4">
+            <CreateTopicPopover />
             <RefreshButton
               isLoading={isLoading || isFetching}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
