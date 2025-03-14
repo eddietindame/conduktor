@@ -1,16 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from '@storybook/test'
 
+import { withPadding } from '#/storybook/decorators'
 import { DataTable } from '.'
 
 const meta = {
   title: 'components/data-table',
   component: DataTable,
-  render: args => (
-    <div className="p-4">
-      <DataTable {...args} />
-    </div>
-  ),
+  decorators: [withPadding],
   parameters: {
     layout: 'fullscreen',
   },

@@ -1,16 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from '@storybook/test'
 
+import { withFullHeight } from '#/storybook/decorators'
 import { NotFound } from '.'
 
 const meta = {
   title: 'components/not-found',
   component: NotFound,
-  render: () => (
-    <div className="h-screen">
-      <NotFound />
-    </div>
-  ),
+  decorators: [withFullHeight],
   parameters: {
     layout: 'fullscreen',
   },

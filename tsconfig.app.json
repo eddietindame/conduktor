@@ -23,7 +23,8 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "#/storybook/*": ["./.storybook/*"]
     }
   },
   "include": ["src", ".storybook/*"]

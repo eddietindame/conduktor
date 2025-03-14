@@ -1,16 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from '@storybook/test'
 
+import { withPadding } from '#/storybook/decorators'
 import { TopicsTable } from '.'
 
 const meta = {
   title: 'components/topics-table',
   component: TopicsTable,
-  render: args => (
-    <div className="p-4">
-      <TopicsTable {...args} />
-    </div>
-  ),
+  decorators: [withPadding],
   parameters: {
     layout: 'fullscreen',
   },

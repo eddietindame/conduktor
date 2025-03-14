@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from '@storybook/test'
 import { Button } from '@/components/ui/button'
 
+import { withPadding } from '#/storybook/decorators'
 import { ErrorAlert } from '.'
 
 const message = 'This is an error message.'
@@ -10,11 +11,7 @@ const title = 'Error'
 const meta = {
   title: 'components/error-alert',
   component: ErrorAlert,
-  render: args => (
-    <div className="p-4">
-      <ErrorAlert {...args} />
-    </div>
-  ),
+  decorators: [withPadding],
   parameters: {
     layout: 'fullscreen',
   },

@@ -1,16 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from '@storybook/test'
 
+import { withFullHeight } from '#/storybook/decorators'
 import { Home } from '.'
 
 const meta = {
   title: 'components/home',
   component: Home,
-  render: args => (
-    <div className="h-screen">
-      <Home {...args} />
-    </div>
-  ),
+  decorators: [withFullHeight],
   parameters: {
     layout: 'fullscreen',
   },
