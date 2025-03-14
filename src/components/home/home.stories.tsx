@@ -46,6 +46,6 @@ export const Loading: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getByTestId('home-skeleton')).toBeVisible()
+    await expect(canvas.getByTestId('generic-skeleton')).toBeVisible()
   },
 }

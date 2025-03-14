@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { useAuth0, User } from '@auth0/auth0-react'
 
+import ProtectedRoute from '@/components/protected-route/protected-route'
 import { ExplorerContainer as Explorer } from '@/components/explorer'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/app-sidebar'
@@ -41,8 +42,22 @@ export const App = ({
             path="/"
             element={<Home name={user?.name} isLoading={isLoading} />}
           />
-          <Route path="/explorer" element={<Explorer />} />
-          <Route path="/console" element={<Console />} />
+          <Route
+            path="/explorer"
+            element={
+              <ProtectedRoute>
+                <Explorer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/console"
+            element={
+              <ProtectedRoute>
+                <Console />
+              </ProtectedRoute>
+            }
+          />
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>

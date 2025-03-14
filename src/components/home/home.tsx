@@ -1,4 +1,4 @@
-import Skeleton from 'react-loading-skeleton'
+import { GenericSkeleton } from '@/components/generic-skeleton/generic-skeleton'
 
 type HomeProps = {
   name?: string
@@ -7,22 +7,7 @@ type HomeProps = {
 
 export const Home = ({ name, isLoading }: HomeProps) => {
   if (isLoading) {
-    return (
-      <div className="p-4">
-        <div className="w-[90%]">
-          <Skeleton containerTestId="home-skeleton" />
-        </div>
-        <span className="text-3xl">
-          <Skeleton />
-        </span>
-        <div className="w-[95%]">
-          <Skeleton />
-        </div>
-        <div className="w-[60%]">
-          <Skeleton />
-        </div>
-      </div>
-    )
+    return <GenericSkeleton />
   }
 
   if (name) {
