@@ -1,14 +1,16 @@
 import { Route, Routes } from 'react-router'
 import { useAuth0, User } from '@auth0/auth0-react'
 
+import { useSidebar } from '@/components/ui/sidebar'
 import ProtectedRoute from '@/components/protected-route/protected-route'
-import { ExplorerContainer as Explorer } from '@/components/explorer'
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { TopicDetailContainer as TopicDetail } from '@/features/topic/topic-detail'
+import { TopicsContainer as Topics } from '@/components/topics'
 import { AppSidebar } from '@/components/app-sidebar'
 import { NotFound } from '@/components/not-found'
 import { Console } from '@/components/console'
 import { Header } from '@/components/header'
 import { Home } from '@/components/home'
+import { cn } from '@/lib/utils'
 
 type AppProps = {
   onLogin: () => Promise<void>
@@ -24,47 +26,63 @@ export const App = ({
   isAuthenticated,
   user,
   isLoading,
-}: AppProps) => (
-  <SidebarProvider>
-    <AppSidebar />
-    <div className="flex-1">
-      <main className="flex h-full flex-col">
-        <Header
-          onLogin={onLogin}
-          onLogout={onLogout}
-          isAuthenticated={isAuthenticated}
-          isLoading={isLoading}
-          username={user?.name}
-          userPicture={user?.picture}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={<Home name={user?.name} isLoading={isLoading} />}
+}: AppProps) => {
+  const { open } = useSidebar()
+  return (
+    <>
+      <AppSidebar />
+      <div
+        className={cn(
+          'flex-1 transition-all duration-300 ease-in-out',
+          open ? 'w-[calc(100%_-_var(--sidebar-width))]' : 'w-full',
+        )}
+      >
+        <main className="flex h-full flex-col">
+          <Header
+            onLogin={onLogin}
+            onLogout={onLogout}
+            isAuthenticated={isAuthenticated}
+            isLoading={isLoading}
+            username={user?.name}
+            userPicture={user?.picture}
           />
-          <Route
-            path="/explorer"
-            element={
-              <ProtectedRoute>
-                <Explorer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/console"
-            element={
-              <ProtectedRoute>
-                <Console />
-              </ProtectedRoute>
-            }
-          />
-          {/* 404 Route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-    </div>
-  </SidebarProvider>
-)
+          <Routes>
+            <Route
+              path="/"
+              element={<Home name={user?.name} isLoading={isLoading} />}
+            />
+            <Route
+              path="/topics"
+              element={
+                <ProtectedRoute>
+                  <Topics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/topics/:topicName"
+              element={
+                <ProtectedRoute>
+                  <TopicDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/console"
+              element={
+                <ProtectedRoute>
+                  <Console />
+                </ProtectedRoute>
+              }
+            />
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </>
+  )
+}
 
 export const AppContainer = () => {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } =

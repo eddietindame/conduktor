@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, fn, userEvent, within } from '@storybook/test'
 
-import { Explorer } from '.'
+import { Topics } from '.'
 
 const onClickRefresh = fn()
 
 const meta = {
-  title: 'components/explorer',
-  component: Explorer,
+  title: 'components/topics',
+  component: Topics,
   parameters: {
     layout: 'fullscreen',
   },
@@ -28,7 +28,7 @@ const meta = {
       },
     ],
   },
-} satisfies Meta<typeof Explorer>
+} satisfies Meta<typeof Topics>
 
 export default meta
 type Story = StoryObj<typeof meta>

@@ -11,6 +11,13 @@ export type Topic = {
   numberOfPartitions: number
 }
 
+export type TopicRecord = {
+  key: string
+  value: string
+  offset: number
+  partition: number
+}
+
 export type GetTopicsResponse = {
   topics: Topic[]
 }
@@ -45,3 +52,19 @@ export class RequestError extends Error {
     this.graphQLErrors = result.errors || []
   }
 }
+
+export type GraphQLWebSocketEvent<T = unknown> =
+  | { type: 'connection_init'; payload?: Record<string, unknown> }
+  | { type: 'connection_ack'; payload?: Record<string, unknown> }
+  | {
+      type: 'subscribe'
+      id: string
+      payload: { query: string; variables?: Record<string, unknown> }
+    }
+  | { type: 'data'; id: string; payload: { data: T } }
+  | {
+      type: 'error'
+      id?: string
+      payload: { message: string; extensions?: unknown }
+    }
+  | { type: 'complete'; id: string }

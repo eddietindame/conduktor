@@ -4,17 +4,22 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 type RefreshButtonProps = React.ComponentProps<'button'> & {
+  title: string
   isLoading?: boolean
 }
 
-export const RefreshButton = ({ isLoading, ...props }: RefreshButtonProps) => (
-  <Button size="icon" disabled={isLoading} {...props}>
+export const RefreshButton = ({
+  isLoading,
+  title,
+  ...props
+}: RefreshButtonProps) => (
+  <Button size="icon" disabled={isLoading} title={title} {...props}>
     <RefreshCw
       aria-hidden
       className={cn(
         isLoading && 'animate-reverse animation-duration-[2.5s] animate-spin',
       )}
     />
-    <span className="sr-only">Refresh topics</span>
+    <span className="sr-only">{title}</span>
   </Button>
 )

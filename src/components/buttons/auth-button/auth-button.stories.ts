@@ -7,7 +7,7 @@ const onLogin = fn()
 const onLogout = fn()
 
 const meta = {
-  title: 'components/auth-button',
+  title: 'components/buttons/auth',
   component: AuthButton,
   tags: ['autodocs'],
   parameters: {

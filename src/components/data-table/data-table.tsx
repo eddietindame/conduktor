@@ -14,17 +14,20 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { cn } from '@/lib/utils'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   isLoading?: boolean
+  maxHeight?: number
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   isLoading,
+  maxHeight,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -38,7 +41,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border">
-      <Table>
+      <Table containerStyles={{ maxHeight }}>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
@@ -49,6 +52,7 @@ export function DataTable<TData, TValue>({
                     style={{
                       width: header.getSize() ? header.getSize() : undefined,
                     }}
+                    className={cn(maxHeight && 'sticky top-0 z-10 bg-white')}
                   >
                     {header.isPlaceholder
                       ? null

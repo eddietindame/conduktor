@@ -1,7 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
+import { Link } from 'react-router'
 
-import { Button } from '@/components/ui/button'
 import { Topic } from '@/api'
+import { buttonVariants } from '@/components/ui/button'
 
 export const columns: ColumnDef<Topic>[] = [
   {
@@ -16,14 +17,12 @@ export const columns: ColumnDef<Topic>[] = [
     id: 'actions',
     cell: ({ row }) => (
       <div className="text-right">
-        <Button
-          size="sm"
-          onClick={() => {
-            console.log(row.original.name)
-          }}
+        <Link
+          to={`/topics/${row.original.name}`}
+          className={buttonVariants({ variant: 'default', size: 'sm' })}
         >
           Consume
-        </Button>
+        </Link>
       </div>
     ),
     size: 150,

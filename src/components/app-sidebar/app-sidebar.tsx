@@ -23,7 +23,7 @@ const items = [
   },
   {
     title: 'Explorer',
-    url: '/explorer',
+    url: '/topics',
     icon: Telescope,
   },
   {

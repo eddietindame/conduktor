@@ -2,12 +2,12 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { Topic, topicsKey, useTopics } from '@/api'
 import { CreateTopicPopover } from '@/features/create-topic'
-import { RefreshButton } from '@/components/refresh-button'
+import { RefreshButton } from '@/components/buttons'
 import { TopicsTable } from '@/components/topics-table'
 import { ErrorAlert } from '@/components/error-alert'
 import { Figure } from '@/components/figure'
 
-type ExplorerProps = {
+type TopicsProps = {
   topics: Topic[]
   error?: string
   isLoading?: boolean
@@ -15,13 +15,13 @@ type ExplorerProps = {
   onClickRefresh: () => Promise<void> | void
 }
 
-export const Explorer = ({
+export const Topics = ({
   topics,
   isLoading,
   isFetching,
   error,
   onClickRefresh,
-}: ExplorerProps) => (
+}: TopicsProps) => (
   <div className="p-4">
     <h1 className="mb-4 text-3xl font-bold">Topics</h1>
     {error ? (
@@ -30,6 +30,7 @@ export const Explorer = ({
         title="Fetch error"
         button={
           <RefreshButton
+            title="Refresh topics"
             disabled={isLoading}
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onClickRefresh}
@@ -53,6 +54,7 @@ export const Explorer = ({
           <div className="flex items-end justify-end gap-4">
             <CreateTopicPopover />
             <RefreshButton
+              title="Refresh topics"
               isLoading={isLoading || isFetching}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={onClickRefresh}
@@ -65,12 +67,12 @@ export const Explorer = ({
   </div>
 )
 
-export const ExplorerContainer = () => {
+export const TopicsContainer = () => {
   const { data: topics = [], isLoading, isFetching, error } = useTopics()
   const queryClient = useQueryClient()
 
   return (
-    <Explorer
+    <Topics
       topics={topics}
       isLoading={isLoading}
       isFetching={isFetching}

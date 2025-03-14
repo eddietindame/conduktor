@@ -1,4 +1,4 @@
-import { AuthButton } from '@/components/auth-button'
+import { AuthButton } from '@/components/buttons'
 import { Profile } from '@/components/profile'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 

@@ -9,6 +9,9 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  args: {
+    title: 'Refresh topics',
+  },
 } satisfies Meta<typeof RefreshButton>
 
 export default meta
