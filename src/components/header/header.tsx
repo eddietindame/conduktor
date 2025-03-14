@@ -1,3 +1,4 @@
+import { LocaleSwitcherContainer as LocaleSwitcher } from '@/features/locale'
 import { AuthButton } from '@/components/buttons'
 import { Profile } from '@/components/profile'
 import { SidebarTrigger } from '@/components/ui/sidebar'
@@ -25,12 +26,15 @@ export const Header = ({
         <SidebarTrigger />
         <Profile name={username} imageUrl={userPicture} isLoading={isLoading} />
       </div>
-      <AuthButton
-        isAuthenticated={isAuthenticated}
-        isLoading={isLoading}
-        onLogin={onLogin}
-        onLogout={onLogout}
-      />
+      <div className="flex gap-4">
+        <LocaleSwitcher />
+        <AuthButton
+          isAuthenticated={isAuthenticated}
+          isLoading={isLoading}
+          onLogin={onLogin}
+          onLogout={onLogout}
+        />
+      </div>
     </div>
   </div>
 )

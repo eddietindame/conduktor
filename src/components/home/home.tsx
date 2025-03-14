@@ -1,11 +1,12 @@
 import { GenericSkeleton } from '@/components/generic-skeleton/generic-skeleton'
 
 type HomeProps = {
+  locale: string
   name?: string
   isLoading?: boolean
 }
 
-export const Home = ({ name, isLoading }: HomeProps) => {
+export const Home = ({ name, isLoading, locale }: HomeProps) => {
   if (isLoading) {
     return <GenericSkeleton />
   }
@@ -17,12 +18,13 @@ export const Home = ({ name, isLoading }: HomeProps) => {
         <p className="mb-4 ml-4 text-3xl">
           <span className="font-bold">{name}</span>!
         </p>
-        <p className="ml-2">
+        <p className="mb-4 ml-2">
           <span className="inline-block rotate-[-90deg] animate-bounce">
             ☝️
           </span>{' '}
           Explore the app through the nav-bar!
         </p>
+        Your locale is <strong className="italic">{locale}</strong>.
       </div>
     )
   }

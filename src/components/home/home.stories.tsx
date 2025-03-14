@@ -11,6 +11,9 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  args: {
+    locale: 'en',
+  },
 } satisfies Meta<typeof Home>
 
 export default meta
@@ -34,6 +37,7 @@ export const Authenticated: Story = {
     await expect(
       canvas.getByText('Explore the app through the nav-bar!'),
     ).toBeVisible()
+    await expect(canvas.getByText('en')).toBeVisible()
   },
 }
 

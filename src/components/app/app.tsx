@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { useAuth0, User } from '@auth0/auth0-react'
 
+import { useLocale } from '@/features/locale'
 import { useSidebar } from '@/components/ui/sidebar'
 import ProtectedRoute from '@/components/protected-route/protected-route'
 import { TopicDetailContainer as TopicDetail } from '@/features/topic/topic-detail'
@@ -16,6 +17,7 @@ type AppProps = {
   onLogin: () => Promise<void>
   onLogout: () => Promise<void>
   isAuthenticated: boolean
+  locale: string
   isLoading?: boolean
   user?: User
 }
@@ -26,6 +28,7 @@ export const App = ({
   isAuthenticated,
   user,
   isLoading,
+  locale,
 }: AppProps) => {
   const { open } = useSidebar()
   return (
@@ -49,7 +52,9 @@ export const App = ({
           <Routes>
             <Route
               path="/"
-              element={<Home name={user?.name} isLoading={isLoading} />}
+              element={
+                <Home name={user?.name} isLoading={isLoading} locale={locale} />
+              }
             />
             <Route
               path="/topics"
@@ -85,6 +90,7 @@ export const App = ({
 }
 
 export const AppContainer = () => {
+  const { locale } = useLocale()
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } =
     useAuth0()
 
@@ -98,6 +104,7 @@ export const AppContainer = () => {
       isLoading={isLoading}
       onLogin={onLogin}
       onLogout={onLogout}
+      locale={locale}
     />
   )
 }

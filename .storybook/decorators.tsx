@@ -2,6 +2,7 @@ import { Decorator } from '@storybook/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
+import { LocaleProvider } from '@/features/locale'
 
 const queryClient = new QueryClient()
 
@@ -17,6 +18,11 @@ export const withSidebarProvider: Decorator = Story => (
       <Story />
     </div>
   </SidebarProvider>
+)
+export const withLocaleProvider: Decorator = Story => (
+  <LocaleProvider>
+    <Story />
+  </LocaleProvider>
 )
 
 export const withPadding: Decorator = Story => (
