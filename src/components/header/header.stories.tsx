@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { withSidebarProvider } from '#/storybook/decorators'
+import { withFullWidth, withSidebarProvider } from '#/storybook/decorators'
 import { Header } from '.'
 
 const meta = {
   title: 'components/header',
   component: Header,
-  decorators: [withSidebarProvider],
+  decorators: [withFullWidth, withSidebarProvider],
   parameters: {
     layout: 'fullscreen',
   },

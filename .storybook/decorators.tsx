@@ -14,9 +14,7 @@ export const withQueryClient: Decorator = Story => (
 
 export const withSidebarProvider: Decorator = Story => (
   <SidebarProvider>
-    <div className="w-full">
-      <Story />
-    </div>
+    <Story />
   </SidebarProvider>
 )
 export const withLocaleProvider: Decorator = Story => (
@@ -27,6 +25,12 @@ export const withLocaleProvider: Decorator = Story => (
 
 export const withPadding: Decorator = Story => (
   <div className="p-4">
+    <Story />
+  </div>
+)
+
+export const withFullWidth: Decorator = Story => (
+  <div className="w-full">
     <Story />
   </div>
 )

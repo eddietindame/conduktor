@@ -1,14 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { withSidebarProvider } from '#/storybook/decorators'
 import { App } from '.'
 
 const meta = {
   title: 'components/app',
   component: App,
+  decorators: [withSidebarProvider],
   parameters: {
     layout: 'fullscreen',
   },
   args: {
+    locale: 'en',
     isAuthenticated: false,
     onLogin: () => Promise.resolve(),
     onLogout: () => Promise.resolve(),
