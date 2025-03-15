@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
 import { Auth0Provider } from '@auth0/auth0-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'sonner'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 import { LocaleProvider } from '@/features/locale'
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')!).render(
           <LocaleProvider>
             <SidebarProvider>
               <AppContainer />
+              <Toaster richColors />
             </SidebarProvider>
           </LocaleProvider>
         </BrowserRouter>

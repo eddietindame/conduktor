@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 import { createTopic, getTopic, getTopics } from './fetch'
 import {
@@ -33,9 +34,13 @@ export const useCreateTopic = (onSuccess?: () => void) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (topic: CreateTopicInput) => createTopic(topic),
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
       if (onSuccess) onSuccess()
+      toast.success(`Topic "${variables.topicName}" created successfully`)
       await queryClient.invalidateQueries({ queryKey: [topicsKey] })
+    },
+    onError: (_, variables) => {
+      toast.error(`Failed to create topic "${variables.topicName}"`)
     },
   })
 }
