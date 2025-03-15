@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import { TopicRecord } from '@/api'
+import { TopicRecord } from '@/api/topics'
 
 export const columns: ColumnDef<TopicRecord>[] = [
   {

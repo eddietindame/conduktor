@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 
-import { Topic, topicsKey, useTopics } from '@/api'
+import { Topic, topicsKey, useTopics } from '@/api/topics'
 import { CreateTopicPopover } from '@/features/create-topic'
 import { RefreshButton } from '@/components/buttons'
 import { ErrorAlert } from '@/components/error-alert'

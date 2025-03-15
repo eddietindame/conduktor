@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Link } from 'react-router'
 
-import { Topic } from '@/api'
+import { Topic } from '@/api/topics'
 import { buttonVariants } from '@/components/ui/button'
 
 export const columns: ColumnDef<Topic>[] = [

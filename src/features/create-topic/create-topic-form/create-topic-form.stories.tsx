@@ -46,3 +46,11 @@ export const MissingFields: Story = {
     await expect(onSubmit).not.toBeCalled()
   },
 }
+
+export const Error: Story = {
+  args: { isError: true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByText('Something went wrong.')).toBeVisible()
+  },
+}

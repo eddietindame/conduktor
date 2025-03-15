@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 
-import { TopicRecord, useTopicSubscription } from '@/api'
+import { TopicRecord, useTopicSubscription } from '@/api/topics'
 import {
   PlayButton,
   PauseButton,

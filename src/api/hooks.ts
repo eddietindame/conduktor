@@ -1,54 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
-import { createTopic, getTopic, getTopics } from './fetch'
-import {
-  CreateTopicInput,
-  GraphQLWebSocketEvent,
-  RequestError,
-  TopicRecord,
-} from '.'
+import { GraphQLWebSocketEvent } from '.'
 
-export const topicsKey = 'topics'
-
-export const useTopics = () =>
-  useQuery({
-    queryKey: [topicsKey],
-    queryFn: getTopics,
-    select: ({ data }) => data.topics,
-    retry: (requestCount, error) => {
-      // Only retry on network errors, not GraphQL errors
-      return !(error instanceof RequestError) && requestCount < 5
-    },
-  })
-
-export const useTopic = (name: string) =>
-  useQuery({
-    queryKey: [topicsKey, name],
-    queryFn: () => getTopic(name),
-    select: ({ data }) => data.topic,
-  })
-
-export const useCreateTopic = (onSuccess?: () => void) => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (topic: CreateTopicInput) => createTopic(topic),
-    onSuccess: async (_, variables) => {
-      if (onSuccess) onSuccess()
-      toast.success(`Topic "${variables.topicName}" created successfully`)
-      await queryClient.invalidateQueries({ queryKey: [topicsKey] })
-    },
-    onError: (_, variables) => {
-      toast.error(`Failed to create topic "${variables.topicName}"`)
-    },
-  })
-}
-
-export const useTopicSubscription = (topicName: string) => {
+export const useGraphQLSubscription = <T extends Record<string, unknown>>(
+  query: string,
+  variables: Record<string, unknown> = {},
+  onMessage?: (data: T) => void,
+) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
-  const [data, setData] = useState<TopicRecord[]>([])
   const [error, setError] = useState<string>()
 
   const socketRef = useRef<WebSocket | null>(null)
@@ -78,22 +38,20 @@ export const useTopicSubscription = (topicName: string) => {
     }
 
     socket.onmessage = (event: MessageEvent<string>) => {
-      const data = JSON.parse(event.data) as GraphQLWebSocketEvent<{
-        consumeTopic: TopicRecord
-      }>
+      const message = JSON.parse(event.data) as GraphQLWebSocketEvent<T>
 
-      switch (data.type) {
+      switch (message.type) {
         case 'connection_ack':
-          subscribe(topicName)
+          subscribe()
           break
 
         case 'data':
-          setData(prevData => [data.payload.data.consumeTopic, ...prevData])
+          if (onMessage && message.payload.data) onMessage(message.payload.data)
           break
 
         case 'error':
-          console.error('Subscription error:', data.payload)
-          setError(data.payload.message)
+          console.error('Subscription error:', message.payload)
+          setError(message.payload.message)
           break
 
         case 'complete':
@@ -101,36 +59,28 @@ export const useTopicSubscription = (topicName: string) => {
           break
 
         default:
-          console.log('Unknown message type:', data.type)
+          console.log('Unknown message type:', message.type)
       }
     }
-  }, [topicName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onMessage])
 
-  const subscribe = (topic: string) => {
+  const subscribe = useCallback(() => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       socketRef.current.send(
         JSON.stringify({
           id: 1,
           type: 'start',
           payload: {
-            query: `
-              subscription Subscription($topic: String!) {
-                consumeTopic(topic: $topic) {
-                  key
-                  offset
-                  partition
-                  value
-                }
-              }
-            `,
-            variables: { topic },
+            query,
+            variables,
           },
         }),
       )
       setIsSubscribed(true)
       setError(undefined)
     }
-  }
+  }, [query, variables])
 
   const close = useCallback(() => {
     if (socketRef.current) {
@@ -140,25 +90,23 @@ export const useTopicSubscription = (topicName: string) => {
     }
   }, [])
 
-  const reset = () => {
+  const reset = useCallback(() => {
     close()
     connect()
-  }
+  }, [close, connect])
 
   useEffect(() => {
-    if (topicName) connect()
+    connect()
     return () => {
       close()
     }
-  }, [close, connect, topicName])
+  }, [close, connect])
 
   return {
-    clearData: () => setData([]),
     connect,
     subscribe,
     close,
     reset,
-    data,
     error,
     isOpen,
     isSubscribed,

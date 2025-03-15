@@ -1,17 +1,9 @@
 import { print } from 'graphql'
 import { DocumentNode } from 'graphql/language/ast'
-import gql from 'graphql-tag'
 
-import {
-  CreateTopicInput,
-  CreateTopicResponse,
-  GetTopicResponse,
-  GetTopicsResponse,
-  GraphQLQueryResponse,
-  RequestError,
-} from '.'
+import { GraphQLQueryResponse, RequestError } from '.'
 
-const graphQlRequest = async <T1, T2 = unknown>(
+export const graphQlRequest = async <T1 = unknown, T2 = unknown>(
   query: DocumentNode,
   variables?: Record<string, T2>,
 ) => {
@@ -33,44 +25,3 @@ const graphQlRequest = async <T1, T2 = unknown>(
 
   return result
 }
-
-export const getTopics = async () =>
-  graphQlRequest<GetTopicsResponse>(
-    gql`
-      query GetTopics {
-        topics {
-          name
-          numberOfPartitions
-        }
-      }
-    `,
-    undefined,
-  )
-
-export const getTopic = async (name: string) =>
-  graphQlRequest<GetTopicResponse>(
-    gql`
-      query GetTopic($name: String!) {
-        topic(name: $name) {
-          name
-          numberOfPartitions
-        }
-      }
-    `,
-    { name },
-  )
-
-export const createTopic = async (topicInput: CreateTopicInput) =>
-  graphQlRequest<CreateTopicResponse, CreateTopicInput>(
-    gql`
-      mutation Mutation($args: CreateTopicInput!) {
-        createTopic(args: $args) {
-          numberOfPartitions
-          name
-        }
-      }
-    `,
-    {
-      args: topicInput,
-    },
-  )

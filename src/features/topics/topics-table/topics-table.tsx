@@ -1,4 +1,4 @@
-import { Topic } from '@/api'
+import { Topic } from '@/api/topics'
 import { DataTable } from '@/components/data-table'
 import { columns } from './topics-table.columns'
 
