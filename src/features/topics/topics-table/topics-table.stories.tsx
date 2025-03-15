@@ -5,7 +5,7 @@ import { withPadding } from '#/storybook/decorators'
 import { TopicsTable } from '.'
 
 const meta = {
-  title: 'components/topics-table',
+  title: 'features/topics/table',
   component: TopicsTable,
   decorators: [withPadding],
   parameters: {

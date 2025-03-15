@@ -6,7 +6,7 @@ import { Topics } from '.'
 const onClickRefresh = fn()
 
 const meta = {
-  title: 'components/topics',
+  title: 'features/topics/view',
   component: Topics,
   parameters: {
     layout: 'fullscreen',

@@ -3,9 +3,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Topic, topicsKey, useTopics } from '@/api'
 import { CreateTopicPopover } from '@/features/create-topic'
 import { RefreshButton } from '@/components/buttons'
-import { TopicsTable } from '@/components/topics-table'
 import { ErrorAlert } from '@/components/error-alert'
 import { Figure } from '@/components/figure'
+import { TopicsTable } from '..'
 
 type TopicsProps = {
   topics: Topic[]
