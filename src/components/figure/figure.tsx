@@ -1,7 +1,7 @@
 import { useId } from 'react'
 
 import { AnimatedNumber } from '@/components/animated-number'
-import Skeleton from 'react-loading-skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type FigureProps = {
   label: string
@@ -21,10 +21,8 @@ export const Figure = ({ label, value = 0, isLoading }: FigureProps) => {
       >
         {isLoading ? (
           <Skeleton
-            containerTestId="figure-skeleton"
-            containerClassName="aspect-square rounded-full flex m-4"
-            className="h-full"
-            circle
+            data-testid="figure-skeleton"
+            className="m-4 aspect-square rounded-full"
           />
         ) : (
           <>

@@ -1,13 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from '@storybook/test'
 
-import { withPadding } from '#/storybook/decorators'
 import { GenericSkeleton } from '.'
 
 const meta = {
   title: 'components/generic-skeleton',
   component: GenericSkeleton,
-  decorators: [withPadding],
   parameters: {
     layout: 'fullscreen',
   },

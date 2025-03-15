@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import Skeleton from 'react-loading-skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type ProfileProps = {
   name?: string
@@ -17,22 +17,12 @@ export const Profile = ({ imageUrl, name, isLoading }: ProfileProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center space-x-4">
-        <div className="size-8">
-          <Skeleton
-            circle
-            containerTestId="profile-avatar-skeleton"
-            className="aspect-square size-full"
-            containerClassName="flex"
-          />
-        </div>
-        <div className="h-4 w-24">
-          <Skeleton
-            containerTestId="profile-name-skeleton"
-            className="h-full"
-            containerClassName="flex"
-          />
-        </div>
+      <div
+        className="flex items-center space-x-4"
+        data-testid="profile-skeleton"
+      >
+        <Skeleton className="aspect-square size-8 rounded-full" />
+        <Skeleton className="h-4 w-24" />
       </div>
     )
   }

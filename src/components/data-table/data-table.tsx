@@ -1,4 +1,3 @@
-import Skeleton from 'react-loading-skeleton'
 import {
   ColumnDef,
   flexRender,
@@ -14,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 
 interface DataTableProps<TData, TValue> {
@@ -72,18 +72,21 @@ export function DataTable<TData, TValue>({
           {isLoading ? (
             <>
               <tr>
-                <td colSpan={columns.length} className="px-3 pt-2 pr-[20%]">
-                  <Skeleton containerTestId="data-table-skeleton" />
+                <td colSpan={columns.length} className="px-3">
+                  <Skeleton
+                    data-testid="data-table-skeleton"
+                    className="mt-3 h-4 w-[80%]"
+                  />
                 </td>
               </tr>
               <tr>
-                <td colSpan={columns.length} className="px-3 pt-2">
-                  <Skeleton />
+                <td colSpan={columns.length} className="px-3">
+                  <Skeleton className="mt-2 h-4 w-full" />
                 </td>
               </tr>
               <tr>
-                <td colSpan={columns.length} className="px-3 py-2 pr-[40%]">
-                  <Skeleton />
+                <td colSpan={columns.length} className="px-3">
+                  <Skeleton className="mt-2 mb-3 h-4 w-[60%]" />
                 </td>
               </tr>
             </>

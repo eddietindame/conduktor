@@ -66,7 +66,6 @@ export const Loading: Story = {
     await expect(canvas.queryByRole('img')).not.toBeInTheDocument()
     await expect(canvas.queryByText('ET')).not.toBeInTheDocument()
     await expect(canvas.queryByText('Eddie Tindame')).not.toBeInTheDocument()
-    await expect(canvas.getByTestId('profile-avatar-skeleton')).toBeVisible()
-    await expect(canvas.getByTestId('profile-name-skeleton')).toBeVisible()
+    await expect(canvas.getByTestId('profile-skeleton')).toBeVisible()
   },
 }

@@ -1,5 +1,4 @@
 import type { Preview } from '@storybook/react'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { withThemeByClassName } from '@storybook/addon-themes'
 
