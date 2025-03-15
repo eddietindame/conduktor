@@ -1,4 +1,5 @@
 import { LocaleSwitcherContainer as LocaleSwitcher } from '@/features/locale'
+import { ThemePicker } from '@/features/theme'
 import { AuthButton } from '@/components/buttons'
 import { Profile } from '@/components/profile'
 import { SidebarTrigger } from '@/components/ui/sidebar'
@@ -27,6 +28,7 @@ export const Header = ({
         <Profile name={username} imageUrl={userPicture} isLoading={isLoading} />
       </div>
       <div className="flex gap-4">
+        <ThemePicker />
         <LocaleSwitcher />
         <AuthButton
           isAuthenticated={isAuthenticated}

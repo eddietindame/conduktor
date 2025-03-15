@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { LocaleProvider } from '@/features/locale'
+import { ThemeProvider } from '@/features/theme'
 
 const queryClient = new QueryClient()
 
@@ -12,11 +13,18 @@ export const withQueryClient: Decorator = Story => (
   </QueryClientProvider>
 )
 
+export const withThemeProvider: Decorator = Story => (
+  <ThemeProvider>
+    <Story />
+  </ThemeProvider>
+)
+
 export const withSidebarProvider: Decorator = Story => (
   <SidebarProvider>
     <Story />
   </SidebarProvider>
 )
+
 export const withLocaleProvider: Decorator = Story => (
   <LocaleProvider>
     <Story />

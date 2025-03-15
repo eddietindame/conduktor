@@ -6,6 +6,7 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
     '@storybook/experimental-addon-test',
+    '@storybook/addon-themes',
     'storybook-addon-remix-react-router',
   ],
   framework: {

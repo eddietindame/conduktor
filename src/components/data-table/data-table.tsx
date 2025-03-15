@@ -52,7 +52,9 @@ export function DataTable<TData, TValue>({
                     style={{
                       width: header.getSize() ? header.getSize() : undefined,
                     }}
-                    className={cn(maxHeight && 'sticky top-0 z-10 bg-white')}
+                    className={cn(
+                      maxHeight && 'bg-background sticky top-0 z-10',
+                    )}
                   >
                     {header.isPlaceholder
                       ? null
