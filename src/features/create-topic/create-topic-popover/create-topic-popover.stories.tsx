@@ -56,3 +56,13 @@ export const CloseOnSubmit: Story = {
     })
   },
 }
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByRole('button', { name: 'Create' })).toBeDisabled()
+  },
+}

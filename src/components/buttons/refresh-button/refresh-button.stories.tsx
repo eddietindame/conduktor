@@ -4,7 +4,7 @@ import { expect, within } from '@storybook/test'
 import { RefreshButton } from '.'
 
 const meta = {
-  title: 'components/refresh-button',
+  title: 'components/buttons/refresh',
   component: RefreshButton,
   parameters: {
     layout: 'centered',

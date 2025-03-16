@@ -8,7 +8,7 @@ import {
   GetTopicsResponse,
 } from '.'
 
-export const getTopics = async () =>
+export const getTopics = async (token?: string) =>
   graphQlRequest<GetTopicsResponse>(
     gql`
       query GetTopics {
@@ -19,9 +19,10 @@ export const getTopics = async () =>
       }
     `,
     undefined,
+    token,
   )
 
-export const getTopic = async (name: string) =>
+export const getTopic = async (name: string, token?: string) =>
   graphQlRequest<GetTopicResponse>(
     gql`
       query GetTopic($name: String!) {
@@ -32,9 +33,13 @@ export const getTopic = async (name: string) =>
       }
     `,
     { name },
+    token,
   )
 
-export const createTopic = async (topicInput: CreateTopicInput) =>
+export const createTopic = async (
+  topicInput: CreateTopicInput,
+  token?: string,
+) =>
   graphQlRequest<CreateTopicResponse, CreateTopicInput>(
     gql`
       mutation Mutation($args: CreateTopicInput!) {
@@ -47,4 +52,5 @@ export const createTopic = async (topicInput: CreateTopicInput) =>
     {
       args: topicInput,
     },
+    token,
   )

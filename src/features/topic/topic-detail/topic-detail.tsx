@@ -10,6 +10,7 @@ import {
 import { ErrorAlert } from '@/components/error-alert'
 import { TopicStatus, TopicStatusProps } from '../topic-status'
 import { TopicTable } from '../topic-table'
+import { useAuthToken } from '@/hooks/use-auth-token'
 
 type TopicDetailProps = {
   name: string
@@ -18,6 +19,7 @@ type TopicDetailProps = {
   isSubscribed: boolean
   limit: number
   error?: string
+  isLoading?: boolean
   onClickRefresh: () => void
   onClickConnect: () => void
   onClickClose: () => void
@@ -40,6 +42,7 @@ export const TopicDetail = ({
   isSubscribed,
   error,
   limit,
+  isLoading = false,
   onClickRefresh,
   onClickConnect,
   onClickClose,
@@ -58,7 +61,11 @@ export const TopicDetail = ({
         message={error}
         title="Subscription error"
         button={
-          <RefreshButton title="Refresh connection" onClick={onClickRefresh} />
+          <RefreshButton
+            title="Refresh connection"
+            onClick={onClickRefresh}
+            disabled={isLoading}
+          />
         }
       />
     ) : (
@@ -68,15 +75,28 @@ export const TopicDetail = ({
             Showing last <code>{limit}</code> messages
           </div>
           <div className="mb-4 flex items-end justify-end gap-4">
-            <ClearButton title="Clear data" onClick={onClickClear} />
+            <ClearButton
+              title="Clear data"
+              onClick={onClickClear}
+              disabled={isLoading}
+            />
             {isOpen ? (
-              <PauseButton onClick={onClickClose} title="Pause connection" />
+              <PauseButton
+                onClick={onClickClose}
+                title="Pause connection"
+                disabled={isLoading}
+              />
             ) : (
-              <PlayButton onClick={onClickConnect} title="Open connection" />
+              <PlayButton
+                onClick={onClickConnect}
+                title="Open connection"
+                disabled={isLoading}
+              />
             )}
             <RefreshButton
               title="Refresh connection"
               onClick={onClickRefresh}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -87,6 +107,7 @@ export const TopicDetail = ({
 )
 
 export const TopicDetailContainer = () => {
+  const token = useAuthToken()
   const limit = 50
   const { topicName } = useParams<{
     topicName: string
@@ -110,6 +131,7 @@ export const TopicDetailContainer = () => {
       isOpen={isOpen}
       isSubscribed={isSubscribed}
       error={error}
+      isLoading={!token}
       onClickClear={clearData}
       onClickConnect={connect}
       onClickClose={close}

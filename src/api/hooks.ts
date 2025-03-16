@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { useAuthToken } from '@/hooks/use-auth-token'
 import { GraphQLWebSocketEvent } from '.'
 
 export const useGraphQLSubscription = <T extends Record<string, unknown>>(
@@ -7,63 +8,75 @@ export const useGraphQLSubscription = <T extends Record<string, unknown>>(
   variables: Record<string, unknown> = {},
   onMessage?: (data: T) => void,
 ) => {
+  const token = useAuthToken()
   const [isOpen, setIsOpen] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [error, setError] = useState<string>()
 
   const socketRef = useRef<WebSocket | null>(null)
 
-  const connect = useCallback(() => {
-    socketRef.current = new WebSocket(
-      `${import.meta.env.VITE_WS_HOST}/subscriptions`,
-      'graphql-ws',
-    )
+  const connect = useCallback(
+    () => {
+      if (!token) return
 
-    const socket = socketRef.current
+      socketRef.current = new WebSocket(
+        `${import.meta.env.VITE_WS_HOST}/subscriptions`,
+        'graphql-ws',
+      )
 
-    socket.onopen = () => {
-      socket.send(JSON.stringify({ type: 'connection_init', payload: {} }))
-      setIsOpen(true)
-    }
+      const socket = socketRef.current
 
-    socket.onclose = event => {
-      console.log('WebSocket connection closed.', event.reason)
-      setIsOpen(false)
-      setIsSubscribed(false)
-    }
-
-    socket.onerror = event => {
-      console.error('WebSocket error:', event)
-      setError('WebSocket connection error')
-    }
-
-    socket.onmessage = (event: MessageEvent<string>) => {
-      const message = JSON.parse(event.data) as GraphQLWebSocketEvent<T>
-
-      switch (message.type) {
-        case 'connection_ack':
-          subscribe()
-          break
-
-        case 'data':
-          if (onMessage && message.payload.data) onMessage(message.payload.data)
-          break
-
-        case 'error':
-          console.error('Subscription error:', message.payload)
-          setError(message.payload.message)
-          break
-
-        case 'complete':
-          setIsSubscribed(false)
-          break
-
-        default:
-          console.log('Unknown message type:', message.type)
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            type: 'connection_init',
+            payload: { auth: token },
+          }),
+        )
+        setIsOpen(true)
       }
-    }
+
+      socket.onclose = event => {
+        console.log('WebSocket connection closed.', event.reason)
+        setIsOpen(false)
+        setIsSubscribed(false)
+      }
+
+      socket.onerror = event => {
+        console.error('WebSocket error:', event)
+        setError('WebSocket connection error')
+      }
+
+      socket.onmessage = (event: MessageEvent<string>) => {
+        const message = JSON.parse(event.data) as GraphQLWebSocketEvent<T>
+
+        switch (message.type) {
+          case 'connection_ack':
+            subscribe()
+            break
+
+          case 'data':
+            if (onMessage && message.payload.data)
+              onMessage(message.payload.data)
+            break
+
+          case 'error':
+            console.error('Subscription error:', message.payload)
+            setError(message.payload.message)
+            break
+
+          case 'complete':
+            setIsSubscribed(false)
+            break
+
+          default:
+            console.log('Unknown message type:', message.type)
+        }
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onMessage])
+    [onMessage, token],
+  )
 
   const subscribe = useCallback(() => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {

@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 
+import { useAuthToken } from '@/hooks/use-auth-token'
 import { Topic, topicsKey, useTopics } from '@/api/topics'
 import { CreateTopicPopover } from '@/features/create-topic'
 import { RefreshButton } from '@/components/buttons'
@@ -52,7 +53,7 @@ export const Topics = ({
             />
           </div>
           <div className="flex items-end justify-end gap-4">
-            <CreateTopicPopover />
+            <CreateTopicPopover disabled={isLoading} />
             <RefreshButton
               title="Refresh topics"
               isLoading={isLoading || isFetching}
@@ -69,12 +70,13 @@ export const Topics = ({
 
 export const TopicsContainer = () => {
   const { data: topics = [], isLoading, isFetching, error } = useTopics()
+  const token = useAuthToken()
   const queryClient = useQueryClient()
 
   return (
     <Topics
       topics={topics}
-      isLoading={isLoading}
+      isLoading={isLoading || !token}
       isFetching={isFetching}
       error={error?.message}
       onClickRefresh={async () => {

@@ -23,3 +23,13 @@ export const Basic: Story = {
     await expect(canvas.getByRole('button', { name: 'Clear' })).toBeVisible()
   },
 }
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByRole('button', { name: 'Clear' })).toBeDisabled()
+  },
+}

@@ -6,12 +6,14 @@ import { GraphQLQueryResponse, RequestError } from '.'
 export const graphQlRequest = async <T1 = unknown, T2 = unknown>(
   query: DocumentNode,
   variables?: Record<string, T2>,
+  token?: string,
 ) => {
   const response = await fetch(`${import.meta.env.VITE_API_HOST}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      Authorization: token ? `Bearer ${token}` : '',
     },
     body: JSON.stringify({ query: print(query), variables }),
   })

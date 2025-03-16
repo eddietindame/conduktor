@@ -4,35 +4,43 @@ import gql from 'graphql-tag'
 import { print } from 'graphql'
 import { toast } from 'sonner'
 
-import { useLimitedQueue } from '@/lib/hooks'
+import { useAuthToken } from '@/hooks/use-auth-token'
+import { useLimitedQueue } from '@/hooks/use-limited-queue'
 import { createTopic, getTopic, getTopics } from './fetch'
-import { CreateTopicInput, TopicRecord } from '.'
 import { useGraphQLSubscription, RequestError } from '..'
+import { CreateTopicInput, TopicRecord } from '.'
 
 export const topicsKey = 'topics'
 
-export const useTopics = () =>
-  useQuery({
-    queryKey: [topicsKey],
-    queryFn: getTopics,
+export const useTopics = () => {
+  const token = useAuthToken()
+  return useQuery({
+    queryKey: [topicsKey, token],
+    queryFn: () => getTopics(token),
     select: ({ data }) => data.topics,
     retry: (requestCount, error) => {
       // Only retry on network errors, not GraphQL errors
       return !(error instanceof RequestError) && requestCount < 5
     },
+    enabled: !!token,
   })
+}
 
-export const useTopic = (name: string) =>
-  useQuery({
-    queryKey: [topicsKey, name],
-    queryFn: () => getTopic(name),
+export const useTopic = (name: string) => {
+  const token = useAuthToken()
+  return useQuery({
+    queryKey: [topicsKey, name, token],
+    queryFn: () => getTopic(name, token),
     select: ({ data }) => data.topic,
+    enabled: !!token,
   })
+}
 
 export const useCreateTopic = (onSuccess?: () => void) => {
   const queryClient = useQueryClient()
+  const token = useAuthToken()
   return useMutation({
-    mutationFn: (topic: CreateTopicInput) => createTopic(topic),
+    mutationFn: (topic: CreateTopicInput) => createTopic(topic, token),
     onSuccess: async (_, variables) => {
       if (onSuccess) onSuccess()
       toast.success(`Topic "${variables.topicName}" created successfully`)
