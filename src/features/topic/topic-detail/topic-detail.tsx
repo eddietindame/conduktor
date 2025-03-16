@@ -16,6 +16,7 @@ type TopicDetailProps = {
   data: TopicRecord[]
   isOpen: boolean
   isSubscribed: boolean
+  limit: number
   error?: string
   onClickRefresh: () => void
   onClickConnect: () => void
@@ -38,6 +39,7 @@ export const TopicDetail = ({
   isOpen,
   isSubscribed,
   error,
+  limit,
   onClickRefresh,
   onClickConnect,
   onClickClose,
@@ -61,14 +63,22 @@ export const TopicDetail = ({
       />
     ) : (
       <>
-        <div className="mb-4 flex items-end justify-end gap-4">
-          <ClearButton title="Clear data" onClick={onClickClear} />
-          {isOpen ? (
-            <PauseButton onClick={onClickClose} title="Pause connection" />
-          ) : (
-            <PlayButton onClick={onClickConnect} title="Open connection" />
-          )}
-          <RefreshButton title="Refresh connection" onClick={onClickRefresh} />
+        <div className="flex items-end justify-between">
+          <div className="mb-3 italic">
+            Showing last <code>{limit}</code> messages
+          </div>
+          <div className="mb-4 flex items-end justify-end gap-4">
+            <ClearButton title="Clear data" onClick={onClickClear} />
+            {isOpen ? (
+              <PauseButton onClick={onClickClose} title="Pause connection" />
+            ) : (
+              <PlayButton onClick={onClickConnect} title="Open connection" />
+            )}
+            <RefreshButton
+              title="Refresh connection"
+              onClick={onClickRefresh}
+            />
+          </div>
         </div>
         <TopicTable data={data} isLoading={!isOpen && !data.length} />
       </>
@@ -77,6 +87,7 @@ export const TopicDetail = ({
 )
 
 export const TopicDetailContainer = () => {
+  const limit = 50
   const { topicName } = useParams<{
     topicName: string
   }>()
@@ -89,10 +100,11 @@ export const TopicDetailContainer = () => {
     connect,
     close,
     reset,
-  } = useTopicSubscription(topicName!)
+  } = useTopicSubscription(topicName!, limit)
 
   return (
     <TopicDetail
+      limit={limit}
       name={topicName!}
       data={data}
       isOpen={isOpen}

@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import gql from 'graphql-tag'
 import { print } from 'graphql'
 import { toast } from 'sonner'
 
+import { useLimitedQueue } from '@/lib/hooks'
 import { createTopic, getTopic, getTopics } from './fetch'
 import { CreateTopicInput, TopicRecord } from '.'
 import { useGraphQLSubscription, RequestError } from '..'
@@ -43,8 +44,11 @@ export const useCreateTopic = (onSuccess?: () => void) => {
   })
 }
 
-export const useTopicSubscription = (topicName: string) => {
-  const [data, setData] = useState<TopicRecord[]>([])
+export const useTopicSubscription = (
+  topicName: string,
+  queueLength: number = 100,
+) => {
+  const [data, addData, resetData] = useLimitedQueue<TopicRecord>(queueLength)
 
   const query = print(gql`
     subscription Subscription($topic: String!) {
@@ -60,9 +64,9 @@ export const useTopicSubscription = (topicName: string) => {
 
   const handleMessage = useCallback(
     (messageData: { consumeTopic: TopicRecord }) => {
-      setData(prevData => [messageData.consumeTopic, ...prevData])
+      addData(messageData.consumeTopic)
     },
-    [],
+    [addData],
   )
 
   const subscription = useGraphQLSubscription<{ consumeTopic: TopicRecord }>(
@@ -72,8 +76,8 @@ export const useTopicSubscription = (topicName: string) => {
   )
 
   const clearData = useCallback(() => {
-    setData([])
-  }, [])
+    resetData()
+  }, [resetData])
 
   return {
     ...subscription,

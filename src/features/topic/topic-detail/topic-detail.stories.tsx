@@ -9,12 +9,15 @@ const onClickConnect = fn()
 const onClickClose = fn()
 const onClickClear = fn()
 
-const data = Array.from({ length: 5 }).map((_, i) => ({
-  key: `key${i + 1}`,
-  value: `value${i + 1}`,
-  offset: i + 1,
-  partition: i + 1,
-}))
+const getData = (length = 5) =>
+  Array.from({ length })
+    .map((_, i) => ({
+      key: `key${i + 1}`,
+      value: `value${i + 1}`,
+      offset: i + 1,
+      partition: i + 1,
+    }))
+    .reverse()
 
 const meta = {
   title: 'features/topic/detail',
@@ -24,10 +27,11 @@ const meta = {
     layout: 'fullscreen',
   },
   args: {
-    data,
+    data: getData(),
     name: 'topic1',
     isOpen: true,
     isSubscribed: true,
+    limit: 50,
     onClickRefresh,
     onClickConnect,
     onClickClose,
@@ -41,6 +45,12 @@ type Story = StoryObj<typeof meta>
 export const Basic: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
+    await expect(canvas.getAllByRole('row')).toHaveLength(6)
+    await expect(
+      canvas.getByText(
+        (_, element) => element?.textContent === 'Showing last 50 messages',
+      ),
+    ).toBeVisible()
     await userEvent.click(
       canvas.getByRole('button', { name: 'Refresh connection' }),
     )
@@ -51,6 +61,16 @@ export const Basic: Story = {
     await expect(onClickClose).toHaveBeenCalled()
     await userEvent.click(canvas.getByRole('button', { name: 'Clear data' }))
     await expect(onClickClear).toHaveBeenCalled()
+  },
+}
+
+export const LotsOfData: Story = {
+  args: {
+    data: getData(50),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getAllByRole('row')).toHaveLength(51)
   },
 }
 
