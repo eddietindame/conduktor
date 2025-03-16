@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, userEvent, within } from '@storybook/test'
+import { ColumnDef } from '@tanstack/react-table'
 
 import { withPadding } from '#/storybook/decorators'
 import { SortButtonContainer as SortButton } from '@/components/buttons/sort-button'
@@ -55,32 +56,41 @@ export const Basic: Story = {
   },
 }
 
+const sortingData = [
+  {
+    name: 'Topic2',
+    numberOfPartitions: 2,
+  },
+  {
+    name: 'Topic1',
+    numberOfPartitions: 1,
+  },
+  {
+    name: 'Topic3',
+    numberOfPartitions: 3,
+  },
+]
+
+const sortingColumns: ColumnDef<unknown>[] = [
+  {
+    accessorKey: 'name',
+    header: ({ column }) => <SortButton column={column} label="Name" />,
+  },
+  {
+    accessorKey: 'numberOfPartitions',
+    header: 'Partitions',
+  },
+]
+
+const filter = {
+  placeholder: 'Filter topics name...',
+  key: 'name',
+}
+
 export const Sorting: Story = {
   args: {
-    columns: [
-      {
-        accessorKey: 'name',
-        header: ({ column }) => <SortButton column={column} label="Name" />,
-      },
-      {
-        accessorKey: 'numberOfPartitions',
-        header: 'Partitions',
-      },
-    ],
-    data: [
-      {
-        name: 'Topic2',
-        numberOfPartitions: 2,
-      },
-      {
-        name: 'Topic1',
-        numberOfPartitions: 1,
-      },
-      {
-        name: 'Topic3',
-        numberOfPartitions: 3,
-      },
-    ],
+    columns: sortingColumns,
+    data: sortingData,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -98,30 +108,8 @@ export const Sorting: Story = {
 
 export const ResetSorting: Story = {
   args: {
-    columns: [
-      {
-        accessorKey: 'name',
-        header: ({ column }) => <SortButton column={column} label="Name" />,
-      },
-      {
-        accessorKey: 'numberOfPartitions',
-        header: 'Partitions',
-      },
-    ],
-    data: [
-      {
-        name: 'Topic2',
-        numberOfPartitions: 2,
-      },
-      {
-        name: 'Topic1',
-        numberOfPartitions: 1,
-      },
-      {
-        name: 'Topic3',
-        numberOfPartitions: 3,
-      },
-    ],
+    columns: sortingColumns,
+    data: sortingData,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -141,10 +129,7 @@ export const ResetSorting: Story = {
 
 export const Filter: Story = {
   args: {
-    filter: {
-      placeholder: 'Filter topics name...',
-      key: 'name',
-    },
+    filter,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -154,6 +139,36 @@ export const Filter: Story = {
       'Topic1',
     )
     await expect(canvas.getAllByRole('row')).toHaveLength(2)
+  },
+}
+
+export const SortingAndFilter: Story = {
+  args: {
+    columns: sortingColumns,
+    data: sortingData,
+    filter,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: 'Name',
+      }),
+    )
+  },
+}
+
+export const Pagination: Story = {
+  args: {
+    hasPagination: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByText('Page 1 of 1')).toBeVisible()
+    await expect(
+      canvas.getByRole('button', { name: 'Previous' }),
+    ).toBeDisabled()
+    await expect(canvas.getByRole('button', { name: 'Next' })).toBeDisabled()
   },
 }
 

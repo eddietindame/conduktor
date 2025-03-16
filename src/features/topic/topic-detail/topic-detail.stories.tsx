@@ -117,3 +117,23 @@ export const Loading: Story = {
     await expect(onClickConnect).toHaveBeenCalled()
   },
 }
+
+export const NoAuthToken: Story = {
+  args: {
+    data: [],
+    isOpen: false,
+    isLoading: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(
+      canvas.getByRole('button', { name: 'Open connection' }),
+    ).toBeDisabled()
+    await expect(
+      canvas.getByRole('button', { name: 'Refresh connection' }),
+    ).toBeDisabled()
+    await expect(
+      canvas.getByRole('button', { name: 'Clear data' }),
+    ).toBeDisabled()
+  },
+}

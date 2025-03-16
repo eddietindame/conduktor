@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { LogoIcon } from '.'
 
 const meta = {
-  title: 'components/logo-icon',
+  title: 'components/logo/icon',
   component: LogoIcon,
   parameters: {
     layout: 'centered',

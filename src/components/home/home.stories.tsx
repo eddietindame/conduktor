@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, within } from '@storybook/test'
+import { expect, waitFor, within } from '@storybook/test'
 
 import { withFullHeight } from '#/storybook/decorators'
 import { Home } from '.'
@@ -22,7 +22,9 @@ type Story = StoryObj<typeof meta>
 export const NotAuthenticated: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getByText('Sign in')).toBeVisible()
+    await waitFor(
+      async () => await expect(canvas.getByText('Sign in')).toBeVisible(),
+    )
   },
 }
 
@@ -32,7 +34,9 @@ export const Authenticated: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getByText('Welcome,')).toBeVisible()
+    await waitFor(
+      async () => await expect(canvas.getByText('Welcome,')).toBeVisible(),
+    )
     await expect(canvas.getByText('Eddie Tindame')).toBeVisible()
     await expect(
       canvas.getByText('Explore the app through the nav-bar!'),

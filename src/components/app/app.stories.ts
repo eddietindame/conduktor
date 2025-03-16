@@ -4,7 +4,7 @@ import { withSidebarProvider } from '#/storybook/decorators'
 import { App } from '.'
 
 const meta = {
-  title: 'components/app',
+  title: 'app',
   component: App,
   decorators: [withSidebarProvider],
   parameters: {

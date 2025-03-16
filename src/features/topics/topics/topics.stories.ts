@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, fn, userEvent, within } from '@storybook/test'
+import { expect, fn, userEvent, waitFor, within } from '@storybook/test'
 
 import { Topics } from '.'
 
@@ -60,7 +60,10 @@ export const ManyTopics: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getAllByRole('row')).toHaveLength(TOPICS_COUNT + 1)
+    await expect(canvas.getAllByRole('row')).toHaveLength(11)
+    await waitFor(async () => {
+      await expect(canvas.getByText('Page 1 of 5')).toBeVisible()
+    })
     await expect(
       canvas.getByRole('figure', { name: 'Count' }),
     ).toHaveTextContent(TOPICS_COUNT.toString())

@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
@@ -29,6 +30,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean
   maxHeight?: number
   highlightDuration?: number
+  hasPagination?: boolean
   filter?: {
     placeholder: string
     key: string
@@ -42,6 +44,7 @@ export function DataTable<TData, TValue>({
   maxHeight,
   highlightDuration = 0,
   filter,
+  hasPagination = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -50,6 +53,7 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
+    getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
@@ -83,25 +87,56 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex justify-end gap-4">
-        {!!sorting.length && (
-          <Button onClick={() => table.resetSorting()} className="mb-4">
-            Reset sorting
-          </Button>
+      <div
+        className={cn(
+          'flex',
+          hasPagination ? 'justify-between' : 'justify-end',
         )}
-        {filter && (
-          <Input
-            aria-label={filter.placeholder}
-            placeholder={filter.placeholder}
-            value={
-              (table.getColumn(filter.key)?.getFilterValue() as string) ?? ''
-            }
-            onChange={event =>
-              table.getColumn(filter.key)?.setFilterValue(event.target.value)
-            }
-            className="mb-4 max-w-xs"
-          />
+      >
+        {hasPagination && (
+          <div className="mb-4 flex items-center justify-end space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+            <span>
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount()}
+            </span>
+          </div>
         )}
+        <div className="flex gap-4">
+          {!!sorting.length && (
+            <Button onClick={() => table.resetSorting()} className="mb-4">
+              Reset sorting
+            </Button>
+          )}
+          {filter && (
+            <Input
+              aria-label={filter.placeholder}
+              placeholder={filter.placeholder}
+              value={
+                (table.getColumn(filter.key)?.getFilterValue() as string) ?? ''
+              }
+              onChange={event =>
+                table.getColumn(filter.key)?.setFilterValue(event.target.value)
+              }
+              className="mb-4 max-w-xs"
+            />
+          )}
+        </div>
       </div>
       <div className="rounded-md border">
         <Table containerStyles={{ maxHeight }}>

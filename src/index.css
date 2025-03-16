@@ -135,10 +135,6 @@
   }
 }
 
-@utility animation-duration-* {
-  animation-duration: --value([ *]);
-}
-
 @keyframes glowFade {
   0% {
     background-color: rgba(173, 216, 230, 0.8);
@@ -150,4 +146,26 @@
 
 .glow-effect {
   animation: glowFade 500ms ease-out;
+}
+
+.opacity-fade-in {
+  opacity: 0;
+  animation: fadeIn 300ms ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@utility animation-duration-* {
+  animation-duration: --value([ *]);
+}
+
+@utility animation-delay-* {
+  animation-delay: --value([ *]);
 }

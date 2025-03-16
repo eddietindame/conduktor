@@ -16,7 +16,6 @@ export const TopicsTable = ({ topics, isLoading }: TopicsTableProps) => (
       placeholder: 'Filter topics name...',
       key: 'name',
     }}
+    hasPagination
   />
 )
-
-// TODO: add pagination

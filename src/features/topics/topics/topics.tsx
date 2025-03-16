@@ -29,7 +29,7 @@ export const Topics = ({
     <IconAlert
       message="Some topics may contain sensitive or confidential information. Ensure you have the appropriate authorization before consuming any data."
       title="Security advisory"
-      className="mb-4"
+      className="opacity-fade-in mb-4"
       button={
         <Link
           to={`/security`}
@@ -39,9 +39,10 @@ export const Topics = ({
         </Link>
       }
     />
-    <h1 className="mb-4 text-3xl font-bold">Topics</h1>
+    <h1 className="opacity-fade-in mb-4 text-3xl font-bold">Topics</h1>
     {error ? (
       <IconAlert
+        className="opacity-fade-in"
         variant="destructive"
         message={error}
         title="Fetch error"
@@ -56,7 +57,7 @@ export const Topics = ({
       />
     ) : (
       <>
-        <div className="mb-4 flex justify-between">
+        <div className="opacity-fade-in mb-4 flex justify-between">
           <div className="flex gap-4">
             <Figure label="Count" value={topics.length} isLoading={isLoading} />
             <Figure
@@ -68,7 +69,7 @@ export const Topics = ({
               isLoading={isLoading}
             />
           </div>
-          <div className="flex items-end justify-end gap-4">
+          <div className="opacity-fade-in flex items-end justify-end gap-4">
             <CreateTopicPopover disabled={isLoading} />
             <RefreshButton
               title="Refresh topics"
@@ -78,7 +79,9 @@ export const Topics = ({
             />
           </div>
         </div>
-        <TopicsTable topics={topics} isLoading={isLoading} />
+        <div className="opacity-fade-in">
+          <TopicsTable topics={topics} isLoading={isLoading} />
+        </div>
       </>
     )}
   </div>

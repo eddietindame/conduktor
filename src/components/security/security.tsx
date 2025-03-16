@@ -39,8 +39,14 @@ const securityAdvisories = [
 export const Security = () => (
   <div className="flex h-full flex-col p-4">
     <ol className="pl-4">
-      {securityAdvisories.map(({ title, message }) => (
-        <li key={title} className="mb-4 list-decimal">
+      {securityAdvisories.map(({ title, message }, i) => (
+        <li
+          key={title}
+          className="opacity-fade-in mb-4 list-decimal"
+          style={{
+            animationDelay: `${i * 30}ms`,
+          }}
+        >
           <h2 className="mb-2 font-bold">{title}</h2>
           <p>{message}</p>
         </li>

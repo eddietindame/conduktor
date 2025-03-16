@@ -9,7 +9,6 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -47,10 +46,10 @@ const items = [
 export const AppSidebar = () => (
   <Sidebar collapsible="icon" className="@container">
     <SidebarHeader>
-      <Logo className="@4xs:block hidden w-full p-2" />
-      <LogoIcon className="@4xs:hidden w-full p-2" />
+      <Logo className="@4xs:block opacity-fade-in hidden w-full p-2" />
+      <LogoIcon className="@4xs:hidden opacity-fade-in w-full p-2" />
     </SidebarHeader>
-    <SidebarContent>
+    <SidebarContent className="opacity-fade-in">
       <SidebarGroup>
         <SidebarGroupLabel>Navigation</SidebarGroupLabel>
         <SidebarGroupContent>
@@ -75,6 +74,5 @@ export const AppSidebar = () => (
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
-    <SidebarFooter />
   </Sidebar>
 )
