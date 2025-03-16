@@ -13,5 +13,6 @@ export const TopicTable = ({ data, isLoading }: TopicTableProps) => (
     data={data}
     isLoading={isLoading}
     maxHeight={600}
+    highlightDuration={500}
   />
 )

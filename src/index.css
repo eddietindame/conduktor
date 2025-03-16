@@ -131,3 +131,16 @@
 @utility animation-duration-* {
   animation-duration: --value([ *]);
 }
+
+@keyframes glowFade {
+  0% {
+    background-color: rgba(173, 216, 230, 0.8);
+  }
+  100% {
+    background-color: rgba(173, 216, 230, 0);
+  }
+}
+
+.glow-effect {
+  animation: glowFade 500ms ease-out;
+}

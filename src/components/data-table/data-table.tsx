@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   ColumnDef,
   flexRender,
@@ -21,6 +22,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
   isLoading?: boolean
   maxHeight?: number
+  highlightDuration?: number
 }
 
 export function DataTable<TData, TValue>({
@@ -28,6 +30,7 @@ export function DataTable<TData, TValue>({
   data,
   isLoading,
   maxHeight,
+  highlightDuration = 0,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -38,6 +41,26 @@ export function DataTable<TData, TValue>({
       size: 0,
     },
   })
+
+  const [highlightedId, setHighlightedId] = useState<string | null>(null)
+
+  // Highlight the first row in the updated data array
+  useEffect(() => {
+    if (data.length > 0 && highlightDuration) {
+      const newRowId = JSON.stringify(data[0]) // First row in the updated data array
+
+      // Prevent unnecessary re-glows if the same row remains at the top
+      if (newRowId !== highlightedId) {
+        setHighlightedId(newRowId)
+
+        // Clear highlight after animation duration
+        setTimeout(() => {
+          setHighlightedId(null)
+        }, highlightDuration)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <div className="rounded-md border">
@@ -95,6 +118,14 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                className={
+                  JSON.stringify(row.original) === highlightedId
+                    ? 'glow-effect'
+                    : ''
+                }
+                style={{
+                  animationDuration: `${highlightDuration}ms`,
+                }}
               >
                 {row.getVisibleCells().map(cell => (
                   <TableCell key={cell.id}>
