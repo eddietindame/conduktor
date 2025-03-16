@@ -20,7 +20,7 @@ export const columns: ColumnDef<Topic>[] = [
       <div className="text-right">
         <Link
           to={`/topics/${row.original.name}`}
-          className={buttonVariants({ variant: 'default', size: 'sm' })}
+          className={buttonVariants({ variant: 'secondary', size: 'sm' })}
         >
           Consume
         </Link>

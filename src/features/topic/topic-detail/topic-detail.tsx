@@ -7,7 +7,7 @@ import {
   RefreshButton,
   ClearButton,
 } from '@/components/buttons'
-import { ErrorAlert } from '@/components/error-alert'
+import { IconAlert } from '@/components/icon-alert'
 import { TopicStatus, TopicStatusProps } from '../topic-status'
 import { TopicTable } from '../topic-table'
 import { useAuthToken } from '@/hooks/use-auth-token'
@@ -57,7 +57,7 @@ export const TopicDetail = ({
       <TopicStatus status={getStatus(isOpen, isSubscribed)} />
     </div>
     {error ? (
-      <ErrorAlert
+      <IconAlert
         message={error}
         title="Subscription error"
         button={

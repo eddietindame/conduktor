@@ -1,10 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { Link } from 'react-router'
 
 import { useAuthToken } from '@/hooks/use-auth-token'
 import { Topic, topicsKey, useTopics } from '@/api/topics'
 import { CreateTopicPopover } from '@/features/create-topic'
+import { buttonVariants } from '@/components/ui/button'
 import { RefreshButton } from '@/components/buttons'
-import { ErrorAlert } from '@/components/error-alert'
+import { IconAlert } from '@/components/icon-alert'
 import { Figure } from '@/components/figure'
 import { TopicsTable } from '..'
 
@@ -24,9 +26,23 @@ export const Topics = ({
   onClickRefresh,
 }: TopicsProps) => (
   <div className="p-4">
+    <IconAlert
+      message="Some topics may contain sensitive or confidential information. Ensure you have the appropriate authorization before consuming any data."
+      title="Security advisory"
+      className="mb-4"
+      button={
+        <Link
+          to={`/security`}
+          className={buttonVariants({ variant: 'default', size: 'sm' })}
+        >
+          Read more
+        </Link>
+      }
+    />
     <h1 className="mb-4 text-3xl font-bold">Topics</h1>
     {error ? (
-      <ErrorAlert
+      <IconAlert
+        variant="destructive"
         message={error}
         title="Fetch error"
         button={

@@ -8,6 +8,7 @@ import ProtectedRoute from '@/components/protected-route/protected-route'
 import { TopicDetailContainer as TopicDetail } from '@/features/topic/topic-detail'
 import { AppSidebar } from '@/components/app-sidebar'
 import { NotFound } from '@/components/not-found'
+import { Security } from '@/components/security'
 import { Console } from '@/components/console'
 import { Header } from '@/components/header'
 import { Home } from '@/components/home'
@@ -77,6 +78,14 @@ export const App = ({
               element={
                 <ProtectedRoute>
                   <Console />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/security"
+              element={
+                <ProtectedRoute>
+                  <Security />
                 </ProtectedRoute>
               }
             />

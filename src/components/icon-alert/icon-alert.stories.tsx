@@ -3,14 +3,14 @@ import { expect, within } from '@storybook/test'
 import { Button } from '@/components/ui/button'
 
 import { withPadding } from '#/storybook/decorators'
-import { ErrorAlert } from '.'
+import { IconAlert } from '.'
 
-const message = 'This is an error message.'
-const title = 'Error'
+const message = 'This is an alert'
+const title = 'Alert'
 
 const meta = {
-  title: 'components/error-alert',
-  component: ErrorAlert,
+  title: 'components/icon-alert',
+  component: IconAlert,
   decorators: [withPadding],
   parameters: {
     layout: 'fullscreen',
@@ -19,7 +19,7 @@ const meta = {
     message,
     title,
   },
-} satisfies Meta<typeof ErrorAlert>
+} satisfies Meta<typeof IconAlert>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -28,7 +28,7 @@ export const Basic: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await expect(canvas.getByRole('alert', { name: title })).toHaveTextContent(
-      message,
+      message + '.',
     )
   },
 }
@@ -56,7 +56,7 @@ export const NoTitle: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getByRole('alert')).toHaveTextContent(message)
+    await expect(canvas.getByRole('alert')).toHaveTextContent(message + '.')
   },
 }
 
@@ -70,5 +70,21 @@ export const WithButton: Story = {
       message,
     )
     await expect(canvas.getByRole('button', { name: 'Hello' })).toBeVisible()
+  },
+}
+
+export const Error: Story = {
+  args: {
+    variant: 'destructive',
+    message: 'This is an error message.',
+    title: 'Error',
+  },
+}
+
+export const Warning: Story = {
+  args: {
+    variant: 'warning',
+    message: 'This is a warning message.',
+    title: 'Warning',
   },
 }

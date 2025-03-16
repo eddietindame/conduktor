@@ -1,5 +1,10 @@
 import { NavLink } from 'react-router'
-import { ChevronsLeftRightEllipsis, Home, Telescope } from 'lucide-react'
+import {
+  ChevronsLeftRightEllipsis,
+  Home,
+  ShieldAlert,
+  Telescope,
+} from 'lucide-react'
 
 import {
   Sidebar,
@@ -31,6 +36,11 @@ const items = [
     title: 'Console',
     url: '/console',
     icon: ChevronsLeftRightEllipsis,
+  },
+  {
+    title: 'Security',
+    url: '/security',
+    icon: ShieldAlert,
   },
 ]
 
