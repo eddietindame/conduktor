@@ -8,7 +8,15 @@ type TopicsTableProps = {
 }
 
 export const TopicsTable = ({ topics, isLoading }: TopicsTableProps) => (
-  <DataTable columns={columns} data={topics} isLoading={isLoading} />
+  <DataTable
+    columns={columns}
+    data={topics}
+    isLoading={isLoading}
+    filter={{
+      placeholder: 'Filter topics name...',
+      key: 'name',
+    }}
+  />
 )
 
 // TODO: add pagination
