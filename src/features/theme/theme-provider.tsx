@@ -14,7 +14,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'system',
+  theme: 'light',
   setTheme: () => null,
 }
 
@@ -71,3 +71,5 @@ export const useTheme = () => {
 
   return context
 }
+
+// TODO: switch system theme automatically

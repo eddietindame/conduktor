@@ -6,8 +6,8 @@ export interface SVGProps extends React.SVGProps<SVGSVGElement> {
 
 export const Logo = ({
   className,
-  textColor = '#fff',
-  shapeColor = '#BCFE68',
+  textColor = 'currentColor',
+  shapeColor = 'currentColor',
   ...props
 }: SVGProps) => (
   <svg fill="none" className={className} viewBox="0 0 765 120" {...props}>
@@ -26,13 +26,13 @@ export const Logo = ({
       </g>
     </g>
     <defs>
-      <clipPath id="svg-881564487_3176_a">
+      <clipPath>
         <path fill={textColor} d="M0 0h764.964v120H0z"></path>
       </clipPath>
-      <clipPath id="svg-881564487_3176_b">
+      <clipPath>
         <path fill={textColor} d="M0 0h764.964v120H0z"></path>
       </clipPath>
-      <clipPath id="svg-881564487_3176_c">
+      <clipPath>
         <path fill={textColor} d="M0 0h120v120H0z"></path>
       </clipPath>
     </defs>

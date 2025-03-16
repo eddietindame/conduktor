@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Logo } from '.'
+import { LogoIcon } from '.'
 
 const meta = {
-  title: 'components/logo',
-  component: Logo,
+  title: 'components/logo-icon',
+  component: LogoIcon,
   parameters: {
     layout: 'centered',
   },
   args: {
-    width: '765',
+    width: '120',
     height: '120',
   },
-} satisfies Meta<typeof Logo>
+} satisfies Meta<typeof LogoIcon>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -21,14 +21,6 @@ export const Basic: Story = {}
 
 export const SetColour: Story = {
   args: {
-    textColor: 'red',
     shapeColor: 'red',
-  },
-}
-
-export const TwoColours: Story = {
-  args: {
-    textColor: 'blue',
-    shapeColor: 'green',
   },
 }

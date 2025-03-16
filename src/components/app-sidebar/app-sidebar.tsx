@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { Logo } from '@/components/logo'
+import { LogoIcon } from '@/components/logo-icon'
 
 const items = [
   {
@@ -34,13 +35,10 @@ const items = [
 ]
 
 export const AppSidebar = () => (
-  <Sidebar>
+  <Sidebar collapsible="icon" className="@container">
     <SidebarHeader>
-      <Logo
-        shapeColor="currentColor"
-        textColor="currentColor"
-        className="w-full p-2"
-      />
+      <Logo className="@4xs:block hidden w-full p-2" />
+      <LogoIcon className="@4xs:hidden w-full p-2" />
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
