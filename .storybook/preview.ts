@@ -6,6 +6,7 @@ import {
   withLocaleProvider,
   withQueryClient,
   withThemeProvider,
+  withTopicSheetProvider,
 } from './decorators'
 import '../src/index.css'
 
@@ -30,6 +31,7 @@ const preview: Preview = {
     withQueryClient,
     withThemeProvider,
     withLocaleProvider,
+    withTopicSheetProvider,
   ],
 }
 

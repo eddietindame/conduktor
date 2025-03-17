@@ -2,6 +2,7 @@ import { Decorator } from '@storybook/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
+import { TopicSheetProvider } from '@/features/topic/topic-sheet'
 import { LocaleProvider } from '@/features/locale'
 import { ThemeProvider } from '@/features/theme'
 
@@ -17,6 +18,12 @@ export const withThemeProvider: Decorator = Story => (
   <ThemeProvider>
     <Story />
   </ThemeProvider>
+)
+
+export const withTopicSheetProvider: Decorator = Story => (
+  <TopicSheetProvider>
+    <Story />
+  </TopicSheetProvider>
 )
 
 export const withSidebarProvider: Decorator = Story => (

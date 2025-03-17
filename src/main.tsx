@@ -5,6 +5,7 @@ import { Auth0Provider } from '@auth0/auth0-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
 
+import { TopicSheetProvider } from '@/features/topic/topic-sheet'
 import { LocaleProvider } from '@/features/locale'
 import { ThemeProvider } from '@/features/theme'
 import { SidebarProvider } from '@/components/ui/sidebar'
@@ -27,8 +28,10 @@ createRoot(document.getElementById('root')!).render(
           <LocaleProvider>
             <ThemeProvider>
               <SidebarProvider>
-                <AppContainer />
-                <Toaster richColors />
+                <TopicSheetProvider>
+                  <AppContainer />
+                  <Toaster richColors />
+                </TopicSheetProvider>
               </SidebarProvider>
             </ThemeProvider>
           </LocaleProvider>
