@@ -48,7 +48,8 @@ export const Basic: Story = {
     await expect(canvas.getAllByRole('row')).toHaveLength(6)
     await expect(
       canvas.getByText(
-        (_, element) => element?.textContent === 'Showing last 50 messages',
+        (_, element) =>
+          element?.textContent === 'Showing up to last 50 messages',
       ),
     ).toBeVisible()
     await userEvent.click(

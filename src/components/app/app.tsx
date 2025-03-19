@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router'
 import { useAuth0, User } from '@auth0/auth0-react'
 
+import { TopicDetailContainer as TopicDetail } from '@/features/topic/topic-detail'
 import { TopicsContainer as Topics } from '@/features/topics/topics'
 import { useLocale } from '@/features/locale'
 import { useSidebar } from '@/components/ui/sidebar'
 import ProtectedRoute from '@/components/protected-route/protected-route'
-import { TopicDetailContainer as TopicDetail } from '@/features/topic/topic-detail'
 import { AppSidebar } from '@/components/app-sidebar'
 import { NotFound } from '@/components/not-found'
 import { Security } from '@/components/security'

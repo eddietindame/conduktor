@@ -31,7 +31,6 @@ const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
 const getIsOpenFromStorage = () => {
   const val = localStorage.getItem('sidebar')
-  console.log({ val })
   if (val === 'true') return true
   if (val === 'false') return false
   return null

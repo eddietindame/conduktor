@@ -72,7 +72,7 @@ export const TopicDetail = ({
       <>
         <div className="flex items-end justify-between">
           <div className="mb-3 italic">
-            Showing last <code>{limit}</code> messages
+            Showing up to last <code>{limit}</code> messages
           </div>
           <div className="mb-4 flex items-end justify-end gap-4">
             <ClearButton

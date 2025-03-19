@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "serve": "npx serve -p 5173 dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test:watch": "vitest --coverage.enabled true",
